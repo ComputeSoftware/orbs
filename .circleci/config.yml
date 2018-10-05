@@ -16,6 +16,7 @@ workflows:
 
 orbs:
   circleci-cli: compute/circleci@0.0.3
+  cache: compute/cache@0.0.0
 
 jobs:
   validate-orbs:
@@ -25,7 +26,9 @@ jobs:
       - checkout
       - circleci-cli/install:
           token: CIRCLECI_API_TOKEN
-      - run: clojure -m validate-orbs
+      - cache/clj:
+          steps:
+            - run: clojure -m validate-orbs
 
   publish-orbs:
     docker:
@@ -34,4 +37,6 @@ jobs:
       - checkout
       - circleci-cli/install:
           token: CIRCLECI_API_TOKEN
-      - run: clojure -m publish-orbs
+      - cache/clj:
+          steps:
+            - run: clojure -m publish-orbs
