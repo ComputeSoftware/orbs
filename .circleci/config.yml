@@ -14,7 +14,7 @@ workflows:
 
 
 orbs:
-  circleci-cli: circleci/circleci-cli@0.0.1
+  circleci-cli: compute/circleci@0.0.1
 
 jobs:
   validate-orbs:
@@ -22,7 +22,8 @@ jobs:
       - image: circleci/clojure:tools-deps-1.9.0.394-node
     steps:
       - checkout
-      - circleci-cli/install
+      - circleci-cli/install:
+          token: $CIRCLECI_API_TOKEN
       - run: clojure -m validate-orbs
 
   publish-orbs:
@@ -30,5 +31,6 @@ jobs:
       - image: circleci/clojure:tools-deps-1.9.0.394-node
     steps:
       - checkout
-      - circleci-cli/install
+      - circleci-cli/install:
+          token: $CIRCLECI_API_TOKEN
       - run: clojure -m publish-orbs

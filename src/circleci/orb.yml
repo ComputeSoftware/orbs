@@ -1,0 +1,22 @@
+version: 2.1
+description: "CircleCI utilities"
+
+orbs:
+  circleci-cli: circleci/circleci-cli@0.0.1
+
+commands:
+  install:
+    description: "Sets up the CLI using the token parameter."
+    parameters:
+      token:
+        type: string
+        default: ""
+    steps:
+      - circleci-cli/install
+      - when:
+          condition: << parameters.token >>
+          steps:
+            - run:
+                name: Set CircleCI token
+                command: |
+                  echo -e "token: << parameters.token >>\nverbose: false" > ~/.circleci/cli.yml
