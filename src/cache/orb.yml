@@ -1,0 +1,28 @@
+version: 2.1
+description: "CircleCI cache utils"
+
+orbs:
+  circleci-cli: circleci/circleci-cli@0.0.1
+
+commands:
+  clj:
+    description: "Automatically caches and restores clj and Maven resources."
+    parameters:
+      steps:
+        type: steps
+        default: []
+      dir:
+        type: string
+        default: $CIRCLE_WORKING_DIRECTORY
+    steps:
+      - restore_cache:
+          keys:
+            - project-{{ checksum "deps.edn" }}
+            - project
+      - steps: << parameters.steps >>
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.gitlibs
+            - << parameters.dir >>/.cpcache
+          key: project-{{ checksum "deps.edn" }}
