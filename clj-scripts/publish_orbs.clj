@@ -84,4 +84,6 @@
 
 (defn -main
   [& args]
-  (publish-local-orbs!))
+  (if (publish-local-orbs!)
+    (bash/exit! true)
+    (bash/exit! false)))
