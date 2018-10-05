@@ -10,4 +10,3 @@ commands:
           command: |
             curl -fsSL https://get.pulumi.com | sh
             echo 'export PATH=/home/circleci/.pulumi/bin:$PATH' >> $BASH_ENV
-            pulumi version
