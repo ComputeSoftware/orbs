@@ -6,6 +6,7 @@ workflows:
     jobs:
       - validate-orbs
       - publish-orbs:
+          context: circleci-token
           requires:
             - validate-orbs
           filters:
