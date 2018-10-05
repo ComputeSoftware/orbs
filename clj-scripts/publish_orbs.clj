@@ -58,7 +58,7 @@
                             (::bash/out r)))
         local-source (slurp orb-path)]
     ;; if the orb source is different then we publish. otherwise we skip publishing
-    (if (not= existing-source local-source)
+    (if (not= (str/trim-newline existing-source) (str/trim-newline local-source))
       (bash/sh ["circleci" "orb" "publish" "increment" orb-path orb-name "patch"]
                {:stdio [nil "inherit"]})
       (println (str orb-name " orb source has not changed. Skipping publish for orb.")))))

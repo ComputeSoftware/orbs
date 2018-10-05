@@ -19,4 +19,4 @@ commands:
             - run:
                 name: Set CircleCI token
                 command: |
-                  echo -e "token: << parameters.token >>\nverbose: false" > ~/.circleci/cli.yml
+                  echo -e "token: $<< parameters.token >>\nverbose: false" > ~/.circleci/cli.yml
