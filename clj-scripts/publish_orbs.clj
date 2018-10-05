@@ -47,7 +47,8 @@
 (defn create-and-publish-new-orb!
   [orb-name orb-path]
   (bash/alet [_ (bash/sh ["circleci" "orb" "create" orb-name])
-              _ (bash/sh ["circleci" "orb" "publish" orb-path (str orb-name "@0.0.0")])]))
+              _ (bash/sh ["circleci" "orb" "publish" orb-path (str orb-name "@0.0.0")]
+                         {:stdio [nil "inherit"]})]))
 
 (defn publish-existing-orb!
   [orb-name orb-path cur-orb-version]
