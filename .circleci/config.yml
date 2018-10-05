@@ -1,0 +1,34 @@
+version: 2.1
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - validate-orbs
+      - publish-orbs:
+          requires:
+            - validate-orbs
+          filters:
+            branches:
+              only: master
+
+
+orbs:
+  circleci-cli: circleci/circleci-cli@0.0.1
+
+jobs:
+  validate-orbs:
+    docker:
+      - image: circleci/clojure:tools-deps-1.9.0.394-node
+    steps:
+      - checkout
+      - circleci-cli/install
+      - run: clojure -m validate-orbs
+
+  publish-orbs:
+    docker:
+      - image: circleci/clojure:tools-deps-1.9.0.394-node
+    steps:
+      - checkout
+      - circleci-cli/install
+      - run: clojure -m publish-orbs

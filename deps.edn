@@ -1,0 +1,3 @@
+{:paths ["clj-scripts"]
+ :deps  {compute/simple-shell {:git/url "git@github.com:ComputeSoftware/simple-shell.git"
+                               :sha     "eaeca2d4fbab0e3e8cb738e95d19657d981b89a6"}}}

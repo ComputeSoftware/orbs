@@ -1,0 +1,15 @@
+version: 2.1
+description: "Installs the Pulumi CLI"
+
+commands:
+  install:
+    description: Install the Pulumi CLI
+    steps:
+      - run:
+          name: Install Pulumi CLI
+          command: |
+            curl -fsSL https://get.pulumi.com | sh
+            echo 'export PATH=/home/circleci/.pulumi/bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Verify Pulumi Install
+          command: pulumi version
