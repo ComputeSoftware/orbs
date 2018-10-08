@@ -1,0 +1,20 @@
+version: 2.1
+description: "Git CLI utilities"
+
+commands:
+  configure:
+    description: "Configure Git CLI"
+    parameters:
+      email:
+        type: string
+        default: "compute-ci@computesoftware.com"
+      name:
+        type: string
+        default: "compute-ci"
+    steps:
+      - run:
+          name: Configure Git
+          command: |
+            git config --global user.email << parameters.email >>
+            git config --global user.name << parameters.name >>
+            git branch --set-upstream-to=origin/$CIRCLE_BRANCH $CIRCLE_BRANCH
