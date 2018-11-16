@@ -18,6 +18,7 @@
   (when-not (str/blank? orb-list-result)
     (as-> orb-list-result $
           (str/split-lines $)
+          (drop 2 $)
           (filter #(not (str/starts-with? % " ")) $)
           (map (fn [orb-name-version-str]
                  (let [[orb-name version] (str/split orb-name-version-str #" " 2)
@@ -79,7 +80,7 @@
     (if (empty? failed-publishes)
       true
       (do
-        (doseq [{:keys [orb]:as fail} failed-publishes]
+        (doseq [{:keys [orb] :as fail} failed-publishes]
           (println (str orb " failed to publish.\n" (::bash/err fail))))
         false))))
 
