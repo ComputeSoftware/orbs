@@ -5,6 +5,28 @@ orbs:
   circleci-cli: circleci/circleci-cli@0.0.1
 
 commands:
+  clj-restore:
+    description: "Restores clj and Maven caches."
+    steps:
+      - restore_cache:
+          keys:
+            - project-{{ checksum "deps.edn" }}
+            - project
+
+  clj-save:
+    description: "Caches clj and Maven resources."
+    parameters:
+      dir:
+        type: string
+        default: $CIRCLE_WORKING_DIRECTORY
+    steps:
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.gitlibs
+            - << parameters.dir >>/.cpcache
+          key: project-{{ checksum "deps.edn" }}
+
   clj:
     description: "Automatically caches and restores clj and Maven resources."
     parameters:
@@ -15,14 +37,7 @@ commands:
         type: string
         default: $CIRCLE_WORKING_DIRECTORY
     steps:
-      - restore_cache:
-          keys:
-            - project-{{ checksum "deps.edn" }}
-            - project
+      - clj-restore
       - steps: << parameters.steps >>
-      - save_cache:
-          paths:
-            - ~/.m2
-            - ~/.gitlibs
-            - << parameters.dir >>/.cpcache
-          key: project-{{ checksum "deps.edn" }}
+      - clj-save:
+          dir: << parameters.dir >>
