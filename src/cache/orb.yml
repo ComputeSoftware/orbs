@@ -7,10 +7,14 @@ orbs:
 commands:
   clj-restore:
     description: "Restores clj and Maven caches."
+    parameters:
+      dir:
+        type: string
+        default: $CIRCLE_WORKING_DIRECTORY
     steps:
       - restore_cache:
           keys:
-            - project-{{ checksum "deps.edn" }}
+            - project-{{ checksum "<< parameters.dir >> /deps.edn" }}
             - project
 
   clj-save:
@@ -25,7 +29,7 @@ commands:
             - ~/.m2
             - ~/.gitlibs
             - << parameters.dir >>/.cpcache
-          key: project-{{ checksum "deps.edn" }}
+          key: project-{{ checksum "<< parameters.dir >> /deps.edn" }}
 
   clj:
     description: "Automatically caches and restores clj and Maven resources."
