@@ -30,7 +30,7 @@ commands:
           name: Build image
           command: |
             docker build \
-            <<#parameters.extra_build_args>><<parameters.extra_build_args>><</parameters.extra_build_args>> \
+            <<#parameters.extra_build_args>><<parameters.extra-build-args>><</parameters.extra_build_args>> \
             -t <<parameters.image>> <<parameters.path>>
 
             docker tag <<parameters.image>>:latest <<parameters.repository>>/<<parameters.image>>:$CIRCLE_SHA1
