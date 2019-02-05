@@ -47,7 +47,7 @@
 
 (defn create-and-publish-new-orb!
   [orb-name orb-path]
-  (bash/alet [_ (bash/sh ["circleci" "orb" "create" orb-name])
+  (bash/alet [_ (bash/sh ["circleci" "orb" "create" orb-name "--no-prompt"])
               _ (bash/sh ["circleci" "orb" "publish" orb-path (str orb-name "@0.0.0")]
                          {:stdio [nil "inherit"]})]))
 
@@ -56,8 +56,9 @@
   (let [existing-source (let [r (bash/sh ["circleci" "orb" "source" (str orb-name "@" cur-orb-version)])]
                           ;; this command may fail if the orb is created but it has
                           ;; not been published yet, so we wrap the command.
-                          (when (bash/success? r)
-                            (::bash/out r)))
+                          (if (bash/success? r)
+                            (::bash/out r)
+                            ""))
         local-source (slurp orb-path)]
     ;; if the orb source is different then we publish. otherwise we skip publishing
     (if (not= (str/trim-newline existing-source) (str/trim-newline local-source))
