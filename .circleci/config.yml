@@ -29,4 +29,14 @@ jobs:
       - cache/clj:
           steps:
             - run: clojure -m validate-orbs
+
+  publish-orbs:
+    docker:
+      - image: circleci/clojure:tools-deps-1.9.0.394
+    steps:
+      - checkout
+      - circleci-cli/install:
+          token: CIRCLECI_API_TOKEN
+      - cache/clj:
+          steps:
             - run: clojure -m publish-orbs
