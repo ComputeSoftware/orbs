@@ -14,12 +14,12 @@
      :patch patch}))
 
 (defn parse-orb-list-result
-  [orb-list-result]
+  [orb-list-result orb-ns]
   (when-not (str/blank? orb-list-result)
     (as-> orb-list-result $
           (str/split-lines $)
           (drop 2 $)
-          (filter #(not (str/starts-with? % " ")) $)
+          (filter #(str/starts-with? % orb-ns) $)
           (map (fn [orb-name-version-str]
                  (let [[orb-name version] (str/split orb-name-version-str #" " 2)
                        version (str/replace version #"\(|\)" "")]
@@ -30,7 +30,7 @@
   "Returns a list of `:orb-name` and `:orb-version` for all the orbs in `orb-ns`."
   [orb-ns]
   (bash/alet [result (bash/sh ["circleci" "orb" "list" orb-ns])]
-    (parse-orb-list-result (::bash/out result))))
+    (parse-orb-list-result (::bash/out result) orb-ns)))
 
 ;; take published orb source and compare it to current source. if changes then
 ;; publish a new version, otherwise skip
