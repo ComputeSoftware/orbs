@@ -26,7 +26,7 @@ commands:
         default: ''
     steps:
       - run:
-          name: Build image
+          name: Build image <<parameters.image>>
           command: |
             docker build \
             <<#parameters.extra-build-args>><<parameters.extra-build-args>><</parameters.extra-build-args>> \
@@ -36,7 +36,7 @@ commands:
             docker tag <<parameters.image>>:latest <<parameters.repository>>/<<parameters.image>>:branch-$CIRCLE_BRANCH
       - aws-cli/install
       - run:
-          name: Publish image
+          name: Publish image <<parameters.image>>
           command: |
             eval $(aws ecr get-login --no-include-email --region us-west-2)
             docker push <<parameters.repository>>/<<parameters.image>>:sha-$CIRCLE_SHA1
