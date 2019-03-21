@@ -29,6 +29,7 @@ commands:
           name: Build image <<parameters.image>>
           command: |
             docker build \
+            --file <<parameters.dockerfile>> \
             <<#parameters.extra-build-args>><<parameters.extra-build-args>><</parameters.extra-build-args>> \
             -t <<parameters.image>> <<parameters.path>>
 
