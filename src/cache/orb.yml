@@ -10,7 +10,7 @@ commands:
     parameters:
       dir:
         type: string
-        default: $CIRCLE_WORKING_DIRECTORY
+        default: .
     steps:
       - restore_cache:
           keys:
@@ -22,7 +22,7 @@ commands:
     parameters:
       dir:
         type: string
-        default: $CIRCLE_WORKING_DIRECTORY
+        default: .
     steps:
       - save_cache:
           paths:
@@ -39,7 +39,7 @@ commands:
         default: []
       dir:
         type: string
-        default: $CIRCLE_WORKING_DIRECTORY
+        default: .
     steps:
       - clj-restore
       - steps: << parameters.steps >>
